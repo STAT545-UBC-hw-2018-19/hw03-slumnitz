@@ -117,33 +117,31 @@ df <- gapminder %>% # I create a variable df I can reuse to look at different ye
                 minLifeExp = min(lifeExp),
                 maxLifeExp = max(lifeExp))
 df %>% 
-  filter(year==1952)
+  filter(year==1952) %>% 
+  knitr::kable()
 ```
 
-    ## # A tibble: 5 x 5
-    ## # Groups:   continent [5]
-    ##   continent  year medianLifeExp minLifeExp maxLifeExp
-    ##   <fct>     <int>         <dbl>      <dbl>      <dbl>
-    ## 1 Africa     1952          38.8       30         52.7
-    ## 2 Americas   1952          54.7       37.6       68.8
-    ## 3 Asia       1952          44.9       28.8       65.4
-    ## 4 Europe     1952          65.9       43.6       72.7
-    ## 5 Oceania    1952          69.3       69.1       69.4
+| continent | year | medianLifeExp | minLifeExp | maxLifeExp |
+| :-------- | ---: | ------------: | ---------: | ---------: |
+| Africa    | 1952 |        38.833 |     30.000 |     52.724 |
+| Americas  | 1952 |        54.745 |     37.579 |     68.750 |
+| Asia      | 1952 |        44.869 |     28.801 |     65.390 |
+| Europe    | 1952 |        65.900 |     43.585 |     72.670 |
+| Oceania   | 1952 |        69.255 |     69.120 |     69.390 |
 
 ``` r
 df %>% 
-  filter(year==2007)
+  filter(year==2007) %>% 
+  knitr::kable()
 ```
 
-    ## # A tibble: 5 x 5
-    ## # Groups:   continent [5]
-    ##   continent  year medianLifeExp minLifeExp maxLifeExp
-    ##   <fct>     <int>         <dbl>      <dbl>      <dbl>
-    ## 1 Africa     2007          52.9       39.6       76.4
-    ## 2 Americas   2007          72.9       60.9       80.7
-    ## 3 Asia       2007          72.4       43.8       82.6
-    ## 4 Europe     2007          78.6       71.8       81.8
-    ## 5 Oceania    2007          80.7       80.2       81.2
+| continent | year | medianLifeExp | minLifeExp | maxLifeExp |
+| :-------- | ---: | ------------: | ---------: | ---------: |
+| Africa    | 2007 |       52.9265 |     39.613 |     76.442 |
+| Americas  | 2007 |       72.8990 |     60.916 |     80.653 |
+| Asia      | 2007 |       72.3960 |     43.828 |     82.603 |
+| Europe    | 2007 |       78.6085 |     71.777 |     81.757 |
+| Oceania   | 2007 |       80.7195 |     80.204 |     81.235 |
 
 Comparing the values for the two years 1952 and 2007 we can for example
 see, that the minimum life expectancy of 28 years in Asia in 1952 rose
@@ -156,13 +154,13 @@ let’s check which Asian country has such a high life expectancy in 2007:
 ``` r
 gapminder %>% 
     filter ( year == 2007) %>%  
-    top_n(n=1, lifeExp) # Using top_n allows me to select the top or bottom entry in a group.
+    top_n(n=1, lifeExp) %>% # Using top_n allows me to select the top or bottom entry in a group.
+    knitr::kable()
 ```
 
-    ## # A tibble: 1 x 6
-    ##   country continent  year lifeExp       pop gdpPercap
-    ##   <fct>   <fct>     <int>   <dbl>     <int>     <dbl>
-    ## 1 Japan   Asia       2007    82.6 127467972    31656.
+| country | continent | year | lifeExp |       pop | gdpPercap |
+| :------ | :-------- | ---: | ------: | --------: | --------: |
+| Japan   | Asia      | 2007 |  82.603 | 127467972 |  31656.07 |
 
 People in Japan live the longest in 2007.
 
@@ -186,34 +184,34 @@ in total for the years 1952-2007, out of interest:
 ``` r
 gapminder %>% 
   group_by(year) %>% 
-  summarize(medianLifeExp=median(lifeExp))
+  summarize(medianLifeExp=median(lifeExp)) %>% 
+  knitr::kable()
 ```
 
-    ## # A tibble: 12 x 2
-    ##     year medianLifeExp
-    ##    <int>         <dbl>
-    ##  1  1952          45.1
-    ##  2  1957          48.4
-    ##  3  1962          50.9
-    ##  4  1967          53.8
-    ##  5  1972          56.5
-    ##  6  1977          59.7
-    ##  7  1982          62.4
-    ##  8  1987          65.8
-    ##  9  1992          67.7
-    ## 10  1997          69.4
-    ## 11  2002          70.8
-    ## 12  2007          71.9
+| year | medianLifeExp |
+| ---: | ------------: |
+| 1952 |       45.1355 |
+| 1957 |       48.3605 |
+| 1962 |       50.8810 |
+| 1967 |       53.8250 |
+| 1972 |       56.5300 |
+| 1977 |       59.6720 |
+| 1982 |       62.4415 |
+| 1987 |       65.8340 |
+| 1992 |       67.7030 |
+| 1997 |       69.3940 |
+| 2002 |       70.8255 |
+| 2007 |       71.9355 |
 
 ``` r
 gapminder %>% 
-  summarize(medianLifeExp=median(lifeExp))
+  summarize(medianLifeExp=median(lifeExp)) %>% 
+  knitr::kable()
 ```
 
-    ## # A tibble: 1 x 1
-    ##   medianLifeExp
-    ##           <dbl>
-    ## 1          60.7
+| medianLifeExp |
+| ------------: |
+|       60.7125 |
 
 The world wide median life expectancy is 60 years for the time from
 1952-2007.
@@ -226,24 +224,54 @@ shortlife <- gapminder %>%
              group_by(year) %>% 
              filter(lifeExp <= 60.7125) %>%
              count(continent)
-shortlife
+
+shortlife %>% 
+  knitr::kable()           
 ```
 
-    ## # A tibble: 41 x 3
-    ## # Groups:   year [12]
-    ##     year continent     n
-    ##    <int> <fct>     <int>
-    ##  1  1952 Africa       52
-    ##  2  1952 Americas     19
-    ##  3  1952 Asia         30
-    ##  4  1952 Europe        7
-    ##  5  1957 Africa       52
-    ##  6  1957 Americas     16
-    ##  7  1957 Asia         27
-    ##  8  1957 Europe        3
-    ##  9  1962 Africa       52
-    ## 10  1962 Americas     13
-    ## # ... with 31 more rows
+| year | continent |  n |
+| ---: | :-------- | -: |
+| 1952 | Africa    | 52 |
+| 1952 | Americas  | 19 |
+| 1952 | Asia      | 30 |
+| 1952 | Europe    |  7 |
+| 1957 | Africa    | 52 |
+| 1957 | Americas  | 16 |
+| 1957 | Asia      | 27 |
+| 1957 | Europe    |  3 |
+| 1962 | Africa    | 52 |
+| 1962 | Americas  | 13 |
+| 1962 | Asia      | 26 |
+| 1962 | Europe    |  1 |
+| 1967 | Africa    | 51 |
+| 1967 | Americas  | 13 |
+| 1967 | Asia      | 25 |
+| 1967 | Europe    |  1 |
+| 1972 | Africa    | 50 |
+| 1972 | Americas  | 10 |
+| 1972 | Asia      | 20 |
+| 1972 | Europe    |  1 |
+| 1977 | Africa    | 50 |
+| 1977 | Americas  |  7 |
+| 1977 | Asia      | 16 |
+| 1977 | Europe    |  1 |
+| 1982 | Africa    | 46 |
+| 1982 | Americas  |  5 |
+| 1982 | Asia      | 12 |
+| 1987 | Africa    | 41 |
+| 1987 | Americas  |  2 |
+| 1987 | Asia      | 10 |
+| 1992 | Africa    | 40 |
+| 1992 | Americas  |  2 |
+| 1992 | Asia      |  8 |
+| 1997 | Africa    | 44 |
+| 1997 | Americas  |  1 |
+| 1997 | Asia      |  7 |
+| 2002 | Africa    | 41 |
+| 2002 | Americas  |  1 |
+| 2002 | Asia      |  5 |
+| 2007 | Africa    | 41 |
+| 2007 | Asia      |  3 |
 
 The table shows the count n of countries with a life expectancy under or
 equal 60.7 years for wach continent in each year. Since this table is
@@ -254,16 +282,16 @@ period from 1952-2007 years:
 ``` r
 shortlife %>% 
   group_by(continent) %>% # grouping the dataframe by continent and year
-      summarize(number = median(n))
+      summarize(number = median(n)) %>% 
+      knitr::kable()
 ```
 
-    ## # A tibble: 4 x 2
-    ##   continent number
-    ##   <fct>      <dbl>
-    ## 1 Africa        48
-    ## 2 Americas       7
-    ## 3 Asia          14
-    ## 4 Europe         1
+| continent | number |
+| :-------- | -----: |
+| Africa    |     48 |
+| Americas  |      7 |
+| Asia      |     14 |
+| Europe    |      1 |
 
 This table shows that 48 countries in Africa are in median under the
 median worldwide life expectancy of 60 over the time period of
@@ -335,22 +363,22 @@ of life expectancy:
 difflifeExp %>% 
   summarize(worst_diff = min(diff, na.rm = TRUE)) %>% # extract the minimum diff value for each country
   top_n(n=-10, worst_diff) %>% # filter the 10 countries with the most negative drop
-  arrange(worst_diff) # arrange values
+  arrange(worst_diff) %>% # arrange values
+  knitr::kable()
 ```
 
-    ## # A tibble: 10 x 2
-    ##    country      worst_diff
-    ##    <fct>             <dbl>
-    ##  1 Rwanda           -20.4 
-    ##  2 Zimbabwe         -13.6 
-    ##  3 Lesotho          -11.0 
-    ##  4 Swaziland        -10.4 
-    ##  5 Botswana         -10.2 
-    ##  6 Cambodia          -9.10
-    ##  7 Namibia           -7.43
-    ##  8 South Africa      -6.87
-    ##  9 China             -6.05
-    ## 10 Zambia            -5.86
+| country      | worst\_diff |
+| :----------- | ----------: |
+| Rwanda       |   \-20.4210 |
+| Zimbabwe     |   \-13.5680 |
+| Lesotho      |   \-10.9650 |
+| Swaziland    |   \-10.4200 |
+| Botswana     |   \-10.1890 |
+| Cambodia     |    \-9.0970 |
+| Namibia      |    \-7.4300 |
+| South Africa |    \-6.8710 |
+| China        |    \-6.0476 |
+| Zambia       |    \-5.8620 |
 
 [Rwanda](https://en.wikipedia.org/wiki/Rwandan_genocide) experienced the
 most significant drop in life expectancy during a 5 year time period.
@@ -363,3 +391,6 @@ NOTES:
   - I am curious to learn about how to format tables soon.
   - I experienced how important it is to also annotate whatever code
     chunk I wrote. It makes it much easier to follow up again later.
+  - Do not place \[\] underneath a table without a blank line. The
+    knitted table will pick up the the \[\] and integrate it into the
+    table.

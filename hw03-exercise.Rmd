@@ -72,12 +72,14 @@ df <- gapminder %>% # I create a variable df I can reuse to look at different ye
                 minLifeExp = min(lifeExp),
                 maxLifeExp = max(lifeExp))
 df %>% 
-  filter(year==1952)
+  filter(year==1952) %>% 
+  knitr::kable()
 ```
 
 ```{r}
 df %>% 
-  filter(year==2007)
+  filter(year==2007) %>% 
+  knitr::kable()
 ```
 
 Comparing the values for the two years 1952 and 2007 we can for example see, that the minimum life expectancy of 28 years in Asia in 1952 rose to 39 years in Africa in 2007. Oceania's median life expectancy rose from 69 to 80 years and has been ahead of all other continents if one compares the mean. In Aisa we can however detect that there are countrys with a life expectancy as high as 82 years in 2007. I am curious now, let's check which Asian country has such a high life expectancy in 2007:
@@ -85,7 +87,8 @@ Comparing the values for the two years 1952 and 2007 we can for example see, tha
 ```{r}
 gapminder %>% 
     filter ( year == 2007) %>%  
-    top_n(n=1, lifeExp) # Using top_n allows me to select the top or bottom entry in a group.
+    top_n(n=1, lifeExp) %>% # Using top_n allows me to select the top or bottom entry in a group.
+    knitr::kable()
 ```
 
 People in Japan live the longest in 2007.
@@ -104,12 +107,14 @@ First, I will compute the median worldwide life expectancy over time and in tota
 ```{r}
 gapminder %>% 
   group_by(year) %>% 
-  summarize(medianLifeExp=median(lifeExp))
+  summarize(medianLifeExp=median(lifeExp)) %>% 
+  knitr::kable()
 ```
 
 ```{r}
 gapminder %>% 
-  summarize(medianLifeExp=median(lifeExp))
+  summarize(medianLifeExp=median(lifeExp)) %>% 
+  knitr::kable()
 ```
 The world wide median life expectancy is 60 years for the time from 1952-2007.
 
@@ -121,7 +126,9 @@ shortlife <- gapminder %>%
              group_by(year) %>% 
              filter(lifeExp <= 60.7125) %>%
              count(continent)
-shortlife
+
+shortlife %>% 
+  knitr::kable()           
 ```
 
 The table shows the count n of countries with a life expectancy under or equal 60.7 years for wach continent in each year. 
@@ -130,7 +137,8 @@ Since this table is very unreadable, I also provide a summary of the median coun
 ```{r}
 shortlife %>% 
   group_by(continent) %>% # grouping the dataframe by continent and year
-      summarize(number = median(n))
+      summarize(number = median(n)) %>% 
+      knitr::kable()
 ```
 
 This table shows that 48 countries in Africa are in median under the median worldwide life expectancy of 60 over the time period of 1952-2007. 
@@ -183,9 +191,11 @@ Let's find out which 10 countries experiences the sharpest 5 year drop of life e
 difflifeExp %>% 
   summarize(worst_diff = min(diff, na.rm = TRUE)) %>% # extract the minimum diff value for each country
   top_n(n=-10, worst_diff) %>% # filter the 10 countries with the most negative drop
-  arrange(worst_diff) # arrange values
+  arrange(worst_diff) %>% # arrange values
+  knitr::kable()
 ```
- [Rwanda](https://en.wikipedia.org/wiki/Rwandan_genocide) experienced the most significant drop in life expectancy during a 5 year time period.
+
+[Rwanda](https://en.wikipedia.org/wiki/Rwandan_genocide) experienced the most significant drop in life expectancy during a 5 year time period.
  
 NOTES:
 
@@ -193,6 +203,7 @@ NOTES:
 * I have not experienced difficulties with data formats yet.
 * I am curious to learn about how to format tables soon. 
 * I experienced how important it is to also annotate whatever code chunk I wrote. It makes it much easier to follow up again later.
+* Do not place [] underneath a table without a blank line. The knitted table will pick up the the [] and integrate it into the table.
 
 
 
