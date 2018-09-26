@@ -15,9 +15,10 @@ library(tidyverse) # to load the tidyverse package which contains dplyr
 ```
 
 In the followign I will explore 3 different tasks and present my results in tables and graphs:
+
 1. How is life expectancy changing over time on different continents?
 2. Report the absolute and/or relative abundance of countries with low life expectancy over time by continent: Compute some measure of worldwide life expectancy – you decide – a mean or median or some other quantile or perhaps your current age. Then determine how many countries on each continent have a life expectancy less than this benchmark, for each year.
-3. Analysing the increasing number of countrys with low life expectancy in Africa and world wide.
+3. I chose my own question: Is life expectancy declining or increasing for each continent for each year? And which country experienced the worst decline in life expectancy over a 5-year period?
 
 
 # Coding on the shoulders of giants
